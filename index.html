@@ -285,6 +285,24 @@ function shuffle(array) {
 }
 
 
+/*
+Format vocabulary for display.
+
+The original TXT data is preserved internally.
+
+Only the display is changed:
+any tab or sequence of 2+ whitespace characters
+between the Spanish and English parts becomes
+exactly 5 normal spaces.
+*/
+
+function formatWordForDisplay(word) {
+
+    return word.replace(/\t+|\s{2,}/g, "     ");
+
+}
+
+
 /* Import TXT File */
 
 fileInput.addEventListener("change", function(event) {
@@ -455,15 +473,18 @@ function renderCurrentWords() {
 
 
         /*
-        Preserve the entire TXT line.
+        Display the formatted version.
 
-        This allows formats such as:
+        Example:
 
-        lo adj que SV               how adj SV
-        pelado                      naked, stripped
+        Original:
+        lo adj que SV　　　　　　　　　　　　how adj SV
+
+        Display:
+        lo adj que SV     how adj SV
         */
 
-        card.textContent = word;
+        card.textContent = formatWordForDisplay(word);
 
 
         /* Main cards can be toggled ON / OFF */
@@ -543,7 +564,10 @@ function renderDifficultWords() {
 
         item.className = "difficult-word";
 
-        item.textContent = word;
+
+        /* Display the same 5-space format */
+
+        item.textContent = formatWordForDisplay(word);
 
 
         /*
